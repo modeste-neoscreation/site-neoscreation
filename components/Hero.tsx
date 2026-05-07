@@ -97,6 +97,7 @@ export function Hero() {
         >
           <span className="block px-1">
             Votre solution tech
+            {" "}
             <br className="sm:hidden" />
             enfin <span className="text-[var(--accent)]">claire</span>
             <br className="sm:hidden" />
