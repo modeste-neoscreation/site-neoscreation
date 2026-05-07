@@ -1,51 +1,9 @@
-"use client";
-
-import { useCallback, useMemo, useRef, useState } from "react";
-
 const CALENDLY = "https://calendly.com/neoscreation/appel-de-decouverte";
 /** Vimeo : ID + hash du lien privé / non listé */
-const HERO_VIDEO_EMBED_BASE =
-  "https://player.vimeo.com/video/1190118474?h=1e54a42107&badge=0&autopause=0";
+const HERO_VIDEO_EMBED =
+  "https://player.vimeo.com/video/1190118474?h=1e54a42107&badge=0&autopause=0&autoplay=1&muted=1&loop=1&playsinline=1&title=0&byline=0&portrait=0";
 
 export function Hero() {
-  const iframeRef = useRef<HTMLIFrameElement | null>(null);
-  const [isMuted, setIsMuted] = useState(true);
-
-  const heroVideoSrc = useMemo(() => {
-    const url = new URL(HERO_VIDEO_EMBED_BASE);
-    url.searchParams.set("autoplay", "1");
-    url.searchParams.set("muted", "1");
-    url.searchParams.set("loop", "1");
-    url.searchParams.set("playsinline", "1");
-    url.searchParams.set("title", "0");
-    url.searchParams.set("byline", "0");
-    url.searchParams.set("portrait", "0");
-    return url.toString();
-  }, []);
-
-  const postToVimeo = useCallback((method: string, value?: unknown) => {
-    const win = iframeRef.current?.contentWindow;
-    if (!win) return;
-    win.postMessage({ method, ...(value === undefined ? {} : { value }) }, "*");
-  }, []);
-
-  const syncVimeoAudioState = useCallback(
-    (muted: boolean) => {
-      postToVimeo("setMuted", muted);
-      postToVimeo("setVolume", muted ? 0 : 1);
-    },
-    [postToVimeo],
-  );
-
-  const toggleSound = useCallback(() => {
-    setIsMuted((prev) => {
-      const next = !prev;
-      syncVimeoAudioState(next);
-      if (!next) postToVimeo("play");
-      return next;
-    });
-  }, [postToVimeo, syncVimeoAudioState]);
-
   return (
     <section
       className="relative scroll-mt-24 overflow-hidden pb-16 pt-4 md:pb-24 md:pt-10"
@@ -109,8 +67,10 @@ export function Hero() {
           className="font-display mx-auto mt-5 max-w-4xl text-[clamp(1.9rem,5.6vw,3.75rem)] leading-[1.02] text-white md:mt-6"
         >
           <span className="block px-1">
-            Votre solution tech enfin{" "}
-            <span className="text-[var(--accent)]">claire</span>
+            Votre solution tech
+            <br className="sm:hidden" />
+            enfin <span className="text-[var(--accent)]">claire</span>
+            <br className="sm:hidden" />
           </span>
           <span className="font-hero-tagline-local-serif block px-1 text-white">
             en motion-design
@@ -125,40 +85,29 @@ export function Hero() {
 
         <div className="mx-auto mt-8 w-full max-w-2xl">
           <div className="overflow-hidden rounded-[15px] border border-[var(--border)] bg-black">
-            <div className="relative aspect-video">
+            <div className="aspect-video">
               <iframe
                 className="h-full w-full"
-                ref={iframeRef}
-                src={heroVideoSrc}
+                src={HERO_VIDEO_EMBED}
                 title="Extrait vidéo : offre claire en une minute"
                 loading="lazy"
                 allow="autoplay; fullscreen; picture-in-picture"
                 allowFullScreen
-                onLoad={() => {
-                  postToVimeo("play");
-                  syncVimeoAudioState(true);
-                }}
               />
-
-              <button
-                type="button"
-                onClick={toggleSound}
-                className="absolute right-3 top-3 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/55 px-3 py-1.5 font-heading text-xs font-medium text-white backdrop-blur-sm transition-colors hover:bg-black/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
-                aria-pressed={!isMuted}
-                aria-label={isMuted ? "Activer le son" : "Couper le son"}
-              >
-                <span aria-hidden>{isMuted ? "🔇" : "🔊"}</span>
-                <span>{isMuted ? "Son" : "Son"}</span>
-              </button>
             </div>
           </div>
         </div>
 
-        <div className="mt-10 flex flex-col items-center justify-center gap-3 sm:flex-row sm:flex-wrap">
-          <a href={CALENDLY} target="_blank" rel="noopener noreferrer" className="btn-primary-fancy-sm">
+        <div className="mt-10 flex flex-row flex-wrap items-center justify-center gap-2">
+          <a
+            href={CALENDLY}
+            target="_blank"
+            rel="noopener noreferrer"
+            className="btn-primary-fancy-sm px-4 py-2 text-[13px]"
+          >
             Réservez un appel
           </a>
-          <a href="#realisations" className="btn-secondary-sm">
+          <a href="#realisations" className="btn-secondary-sm px-4 py-2 text-[13px]">
             Voir les réalisations
           </a>
         </div>

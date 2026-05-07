@@ -89,15 +89,6 @@ export function Header() {
                 {label}
               </a>
             ))}
-            <a
-              href={CALENDLY}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="btn-primary-fancy mt-2 w-full"
-              onClick={() => setOpen(false)}
-            >
-              Prendre un rendez-vous
-            </a>
           </nav>
         </div>
       )}
