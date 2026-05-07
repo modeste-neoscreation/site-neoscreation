@@ -1,9 +1,51 @@
+"use client";
+
+import { useCallback, useMemo, useRef, useState } from "react";
+
 const CALENDLY = "https://calendly.com/neoscreation/appel-de-decouverte";
 /** Vimeo : ID + hash du lien privé / non listé */
-const HERO_VIDEO_EMBED =
+const HERO_VIDEO_EMBED_BASE =
   "https://player.vimeo.com/video/1190118474?h=1e54a42107&badge=0&autopause=0";
 
 export function Hero() {
+  const iframeRef = useRef<HTMLIFrameElement | null>(null);
+  const [isMuted, setIsMuted] = useState(true);
+
+  const heroVideoSrc = useMemo(() => {
+    const url = new URL(HERO_VIDEO_EMBED_BASE);
+    url.searchParams.set("autoplay", "1");
+    url.searchParams.set("muted", "1");
+    url.searchParams.set("loop", "1");
+    url.searchParams.set("playsinline", "1");
+    url.searchParams.set("title", "0");
+    url.searchParams.set("byline", "0");
+    url.searchParams.set("portrait", "0");
+    return url.toString();
+  }, []);
+
+  const postToVimeo = useCallback((method: string, value?: unknown) => {
+    const win = iframeRef.current?.contentWindow;
+    if (!win) return;
+    win.postMessage({ method, ...(value === undefined ? {} : { value }) }, "*");
+  }, []);
+
+  const syncVimeoAudioState = useCallback(
+    (muted: boolean) => {
+      postToVimeo("setMuted", muted);
+      postToVimeo("setVolume", muted ? 0 : 1);
+    },
+    [postToVimeo],
+  );
+
+  const toggleSound = useCallback(() => {
+    setIsMuted((prev) => {
+      const next = !prev;
+      syncVimeoAudioState(next);
+      if (!next) postToVimeo("play");
+      return next;
+    });
+  }, [postToVimeo, syncVimeoAudioState]);
+
   return (
     <section
       className="relative scroll-mt-24 overflow-hidden pb-16 pt-4 md:pb-24 md:pt-10"
@@ -83,15 +125,31 @@ export function Hero() {
 
         <div className="mx-auto mt-8 w-full max-w-2xl">
           <div className="overflow-hidden rounded-[15px] border border-[var(--border)] bg-black">
-            <div className="aspect-video">
+            <div className="relative aspect-video">
               <iframe
                 className="h-full w-full"
-                src={HERO_VIDEO_EMBED}
+                ref={iframeRef}
+                src={heroVideoSrc}
                 title="Extrait vidéo : offre claire en une minute"
                 loading="lazy"
                 allow="autoplay; fullscreen; picture-in-picture"
                 allowFullScreen
+                onLoad={() => {
+                  postToVimeo("play");
+                  syncVimeoAudioState(true);
+                }}
               />
+
+              <button
+                type="button"
+                onClick={toggleSound}
+                className="absolute right-3 top-3 inline-flex items-center gap-2 rounded-full border border-white/15 bg-black/55 px-3 py-1.5 font-heading text-xs font-medium text-white backdrop-blur-sm transition-colors hover:bg-black/70 focus:outline-none focus-visible:ring-2 focus-visible:ring-[var(--accent)]"
+                aria-pressed={!isMuted}
+                aria-label={isMuted ? "Activer le son" : "Couper le son"}
+              >
+                <span aria-hidden>{isMuted ? "🔇" : "🔊"}</span>
+                <span>{isMuted ? "Son" : "Son"}</span>
+              </button>
             </div>
           </div>
         </div>
