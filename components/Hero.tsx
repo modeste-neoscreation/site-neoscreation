@@ -1,9 +1,38 @@
+"use client";
+
+import { useEffect, useMemo, useState } from "react";
+
 const CALENDLY = "https://calendly.com/neoscreation/appel-de-decouverte";
 /** Vimeo : ID + hash du lien privé / non listé */
-const HERO_VIDEO_EMBED =
-  "https://player.vimeo.com/video/1190118474?h=1e54a42107&badge=0&autopause=0&autoplay=1&muted=1&loop=1&playsinline=1&title=0&byline=0&portrait=0";
+const HERO_VIDEO_EMBED_BASE =
+  "https://player.vimeo.com/video/1190118474?h=1e54a42107&badge=0&autopause=0";
 
 export function Hero() {
+  const [isMobile, setIsMobile] = useState(false);
+
+  useEffect(() => {
+    const mq = window.matchMedia("(max-width: 767px)");
+    const apply = () => setIsMobile(mq.matches);
+    apply();
+    mq.addEventListener("change", apply);
+    return () => mq.removeEventListener("change", apply);
+  }, []);
+
+  const heroVideoSrc = useMemo(() => {
+    const url = new URL(HERO_VIDEO_EMBED_BASE);
+    url.searchParams.set("muted", "1");
+    url.searchParams.set("loop", "1");
+    url.searchParams.set("playsinline", "1");
+    url.searchParams.set("title", "0");
+    url.searchParams.set("byline", "0");
+    url.searchParams.set("portrait", "0");
+
+    // Autoplay desktop uniquement (mobile: UX + contraintes navigateurs)
+    url.searchParams.set("autoplay", isMobile ? "0" : "1");
+
+    return url.toString();
+  }, [isMobile]);
+
   return (
     <section
       className="relative scroll-mt-24 overflow-hidden pb-16 pt-4 md:pb-24 md:pt-10"
@@ -88,7 +117,7 @@ export function Hero() {
             <div className="aspect-video">
               <iframe
                 className="h-full w-full"
-                src={HERO_VIDEO_EMBED}
+                src={heroVideoSrc}
                 title="Extrait vidéo : offre claire en une minute"
                 loading="lazy"
                 allow="autoplay; fullscreen; picture-in-picture"
