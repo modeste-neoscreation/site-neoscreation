@@ -51,7 +51,7 @@ export function Header() {
             href={CALENDLY}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-primary-fancy-sm hidden sm:inline-flex"
+            className="btn-primary-fancy-sm hidden md:inline-flex"
           >
             Prendre un rendez-vous
           </a>

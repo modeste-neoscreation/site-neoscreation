@@ -57,7 +57,7 @@ export function Hero() {
             4,5<span className="text-[var(--muted)]">/5</span>
           </p>
           <span className="text-xs text-[var(--muted)]">•</span>
-          <p className="text-xs leading-snug text-[var(--muted)]">
+          <p className="hidden text-xs leading-snug text-[var(--muted)] sm:block">
             Apprécié par les fondateurs accompagnés
           </p>
         </div>
