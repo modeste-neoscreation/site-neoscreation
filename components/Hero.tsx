@@ -1,7 +1,7 @@
 const CALENDLY = "https://calendly.com/neoscreation/appel-de-decouverte";
 /** Vimeo : ID + hash du lien privé / non listé */
 const HERO_VIDEO_EMBED =
-  "https://player.vimeo.com/video/1189903237?h=5004d14669&badge=0&autopause=0";
+  "https://player.vimeo.com/video/1190118474?h=1e54a42107&badge=0&autopause=0";
 
 export function Hero() {
   return (

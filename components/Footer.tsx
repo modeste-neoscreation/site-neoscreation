@@ -1,6 +1,8 @@
 import Image from "next/image";
 
 const CALENDLY = "https://calendly.com/neoscreation/appel-de-decouverte";
+const LINKEDIN = "https://www.linkedin.com/in/modeste-kambala-13aa08106/";
+const INSTAGRAM = "https://www.instagram.com/modeste.creation/";
 
 export function Footer() {
   return (
@@ -24,6 +26,57 @@ export function Footer() {
             <strong className="font-semibold text-white">Paris</strong>, briefs
             et livraisons à distance (visio, fichiers cloud).
           </p>
+          <div className="mt-6 flex items-center gap-3">
+            <a
+              href={LINKEDIN}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="LinkedIn"
+              className="inline-flex size-10 items-center justify-center rounded-full border border-[var(--border-strong)] text-[var(--muted)] transition-colors hover:border-[var(--accent)]/60 hover:text-[var(--accent)]"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+                <path
+                  d="M6.94 6.5A2.44 2.44 0 1 1 2.06 6.5a2.44 2.44 0 0 1 4.88 0Z"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                />
+                <path d="M4.5 10v10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                <path d="M9 10v10" stroke="currentColor" strokeWidth="2" strokeLinecap="round" />
+                <path
+                  d="M9 14.2c.4-2.2 1.9-4.2 4.8-4.2 3.2 0 5.2 2.1 5.2 6.2V20"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </a>
+            <a
+              href={INSTAGRAM}
+              target="_blank"
+              rel="noopener noreferrer"
+              aria-label="Instagram"
+              className="inline-flex size-10 items-center justify-center rounded-full border border-[var(--border-strong)] text-[var(--muted)] transition-colors hover:border-[var(--accent)]/60 hover:text-[var(--accent)]"
+            >
+              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden>
+                <path
+                  d="M7 3h10a4 4 0 0 1 4 4v10a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4V7a4 4 0 0 1 4-4Z"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                />
+                <path
+                  d="M12 16.5a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9Z"
+                  stroke="currentColor"
+                  strokeWidth="2"
+                />
+                <path
+                  d="M17.5 6.7h.01"
+                  stroke="currentColor"
+                  strokeWidth="3"
+                  strokeLinecap="round"
+                />
+              </svg>
+            </a>
+          </div>
           <a
             href={CALENDLY}
             target="_blank"
