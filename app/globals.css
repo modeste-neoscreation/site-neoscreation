@@ -1,0 +1,357 @@
+@import "tailwindcss";
+
+@font-face {
+  font-family: "Instrument Serif";
+  src: url("/assets/fonts/instrument-serif/instrumentserif-italic.ttf") format("truetype");
+  font-display: swap;
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Tokens alignés sur l’export Framer neoscreation.fr */
+:root {
+  --background: #000000;
+  --foreground: #ffffff;
+  --muted: rgba(255, 255, 255, 0.7);
+  --muted-dim: rgba(255, 255, 255, 0.55);
+  --surface: #111111;
+  --surface-elevated: #161616;
+  --border: rgba(255, 255, 255, 0.1);
+  --border-strong: rgba(255, 255, 255, 0.16);
+  /* Violet un peu plus soutenu et saturé que le pastel initial, tout en restant lisible sur noir */
+  --accent: #c49cff;
+  --accent-hover: #d7b8ff;
+  --accent-soft: rgba(196, 156, 255, 0.24);
+  --accent-glow: rgba(196, 156, 255, 0.42);
+  /* Lueurs d’arrière-plan hero : violet soutenu (comme avant), séparé du --accent UI */
+  --accent-backdrop-deep: #7a28cb;
+  /* Même famille pour cartes / dégradés type bloc « offre » */
+  --accent-backdrop-soft: rgba(122, 40, 203, 0.28);
+  --accent-bloom: #9442ff;
+  --accent-bloom-mid: #9e3dff;
+  --highlight: #f4e04d;
+  /* Grain pellicule sur tout le site (léger, au-dessus du fond y compris les halos flous) */
+  --noise-opacity: 0.055;
+}
+
+@theme inline {
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-heading: var(--font-outfit), ui-sans-serif, sans-serif;
+  --font-display: var(--font-staatliches), ui-sans-serif, sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-inter), system-ui, sans-serif;
+}
+
+/* Bruit SVG répété : rend les dégradés et blocs flous un peu granuleux (overlay, sans interaction) */
+body::after {
+  content: "";
+  position: fixed;
+  inset: 0;
+  z-index: 999;
+  pointer-events: none;
+  opacity: var(--noise-opacity);
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='512' height='512'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.68' numOctaves='4' seed='7' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-repeat: repeat;
+  background-size: 200px 200px;
+}
+
+/* Titres principaux : h1 < h2 en graisse ; h3 lisible sans rivaliser avec les h2 */
+h1 {
+  font-family: var(--font-inter), var(--font-outfit), system-ui, sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.05em;
+}
+
+h2 {
+  font-family: var(--font-inter), var(--font-outfit), system-ui, sans-serif;
+  font-weight: 600;
+  letter-spacing: -0.05em;
+}
+
+h3 {
+  font-family: var(--font-inter), var(--font-outfit), system-ui, sans-serif;
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+/* `font-display` sur paragraphes / puces : léger ; sur h1–h2 le bloc ci‑dessus prime via spécificité */
+.font-display {
+  font-family: var(--font-inter), var(--font-outfit), system-ui, sans-serif;
+  font-weight: 200;
+  letter-spacing: -0.02em;
+}
+
+h1.font-display {
+  font-weight: 500;
+  letter-spacing: -0.05em;
+}
+
+h2.font-display {
+  font-weight: 600;
+  letter-spacing: -0.05em;
+}
+
+h3.font-display {
+  font-weight: 500;
+  letter-spacing: -0.02em;
+}
+
+/* Mots spécifiques dans les titres */
+.font-instrument-italic {
+  font-family: "Instrument Serif", serif;
+  font-style: italic;
+  font-weight: 400;
+}
+
+/* Hero : ligne « en moins de 60 secondes » — Instrument Serif (italique embarqué), avec secours système */
+.font-hero-tagline-local-serif {
+  font-family:
+    "Instrument Serif",
+    "Palatino Linotype",
+    Palatino,
+    Constantia,
+    Georgia,
+    serif;
+  font-style: italic;
+  font-weight: 400;
+  letter-spacing: -0.025em;
+}
+
+/* Boutons primaires : fond violet clair, texte noir (contraste type CTA lime sur fond sombre) */
+.btn-primary {
+  @apply inline-flex items-center justify-center rounded-full px-8 py-3.5 text-center text-base font-semibold text-black transition-colors;
+  background-color: var(--accent);
+}
+.btn-primary:hover {
+  background-color: var(--accent-hover);
+}
+
+.btn-primary-fancy {
+  @apply inline-flex items-center justify-center rounded-full px-8 py-3.5 text-center text-base font-semibold transition-[transform,box-shadow,background-color] duration-200;
+  position: relative;
+  overflow: hidden;
+  background: #000000;
+  color: #ffffff;
+  box-shadow:
+    0 10px 30px rgba(122, 43, 203, 0.14),
+    0 0 0 1px rgba(122, 43, 203, 0.28),
+    0 0 10px rgba(122, 43, 203, 0.24),
+    0 0 20px rgba(122, 43, 203, 0.18),
+    0 0 36px rgba(122, 43, 203, 0.14),
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset,
+    0 0 10px rgba(122, 43, 203, 0.40) inset,
+    0 0 18px rgba(122, 43, 203, 0.30) inset,
+    0 0 30px rgba(122, 43, 203, 0.22) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.35) inset;
+}
+.btn-primary-fancy::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  pointer-events: none;
+  padding: 2px;
+  background: linear-gradient(180deg, var(--accent-hover), var(--accent));
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+.btn-primary-fancy::before {
+  content: "";
+  position: absolute;
+  inset: -40% -20% auto -20%;
+  height: 120%;
+  border-radius: 9999px;
+  pointer-events: none;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 70%);
+  opacity: 0.12;
+  transform: translateY(-12%) rotate(-8deg);
+}
+.btn-primary-fancy:hover {
+  transform: none;
+  box-shadow:
+    0 16px 46px rgba(122, 43, 203, 0.22),
+    0 0 0 1px rgba(122, 43, 203, 0.36),
+    0 0 16px rgba(122, 43, 203, 0.38),
+    0 0 34px rgba(122, 43, 203, 0.30),
+    0 0 72px rgba(122, 43, 203, 0.22),
+    0 0 0 1px rgba(255, 255, 255, 0.10) inset,
+    0 0 22px rgba(122, 43, 203, 0.34) inset,
+    0 0 44px rgba(122, 43, 203, 0.22) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.35) inset;
+}
+.btn-primary-fancy:active {
+  transform: none;
+}
+
+.card-fancy-border {
+  position: relative;
+  border-radius: 15px;
+  overflow: hidden;
+  box-shadow:
+    0 10px 30px rgba(122, 43, 203, 0.14),
+    0 0 0 1px rgba(122, 43, 203, 0.28),
+    0 0 10px rgba(122, 43, 203, 0.24),
+    0 0 20px rgba(122, 43, 203, 0.18),
+    0 0 36px rgba(122, 43, 203, 0.14);
+}
+.card-fancy-border::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 15px;
+  pointer-events: none;
+  padding: 2px;
+  background: linear-gradient(180deg, var(--accent-hover), var(--accent));
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+.badge-fancy {
+  position: relative;
+  overflow: hidden;
+  background: #000000;
+  color: #ffffff;
+  box-shadow:
+    0 10px 30px rgba(122, 43, 203, 0.14),
+    0 0 0 1px rgba(122, 43, 203, 0.28),
+    0 0 10px rgba(122, 43, 203, 0.24),
+    0 0 20px rgba(122, 43, 203, 0.18),
+    0 0 36px rgba(122, 43, 203, 0.14),
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset,
+    0 0 10px rgba(122, 43, 203, 0.40) inset,
+    0 0 18px rgba(122, 43, 203, 0.30) inset,
+    0 0 30px rgba(122, 43, 203, 0.22) inset;
+}
+.badge-fancy::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  pointer-events: none;
+  padding: 2px;
+  background: linear-gradient(180deg, var(--accent-hover), var(--accent));
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+
+.btn-primary-sm {
+  @apply inline-flex items-center justify-center rounded-full px-5 py-2.5 text-center text-sm font-semibold text-black transition-colors;
+  background-color: var(--accent);
+}
+.btn-primary-sm:hover {
+  background-color: var(--accent-hover);
+}
+
+.btn-primary-fancy-sm {
+  @apply inline-flex items-center justify-center rounded-full px-5 py-2.5 text-center text-sm font-semibold transition-[transform,box-shadow,background-color] duration-200;
+  position: relative;
+  overflow: hidden;
+  background: #000000;
+  color: #ffffff;
+  box-shadow:
+    0 10px 30px rgba(122, 43, 203, 0.14),
+    0 0 0 1px rgba(122, 43, 203, 0.28),
+    0 0 10px rgba(122, 43, 203, 0.24),
+    0 0 20px rgba(122, 43, 203, 0.18),
+    0 0 36px rgba(122, 43, 203, 0.14),
+    0 0 0 1px rgba(255, 255, 255, 0.08) inset,
+    0 0 10px rgba(122, 43, 203, 0.40) inset,
+    0 0 18px rgba(122, 43, 203, 0.30) inset,
+    0 0 30px rgba(122, 43, 203, 0.22) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.35) inset;
+}
+.btn-primary-fancy-sm::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 9999px;
+  pointer-events: none;
+  padding: 2px;
+  background: linear-gradient(180deg, var(--accent-hover), var(--accent));
+  -webkit-mask:
+    linear-gradient(#000 0 0) content-box,
+    linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+}
+.btn-primary-fancy-sm::before {
+  content: "";
+  position: absolute;
+  inset: -40% -20% auto -20%;
+  height: 120%;
+  border-radius: 9999px;
+  pointer-events: none;
+  background: radial-gradient(closest-side, rgba(255, 255, 255, 0.55), rgba(255, 255, 255, 0) 70%);
+  opacity: 0.12;
+  transform: translateY(-12%) rotate(-8deg);
+}
+.btn-primary-fancy-sm:hover {
+  transform: none;
+  box-shadow:
+    0 16px 46px rgba(122, 43, 203, 0.22),
+    0 0 0 1px rgba(122, 43, 203, 0.36),
+    0 0 16px rgba(122, 43, 203, 0.38),
+    0 0 34px rgba(122, 43, 203, 0.30),
+    0 0 72px rgba(122, 43, 203, 0.22),
+    0 0 0 1px rgba(255, 255, 255, 0.10) inset,
+    0 0 22px rgba(122, 43, 203, 0.34) inset,
+    0 0 44px rgba(122, 43, 203, 0.22) inset,
+    0 -1px 0 rgba(0, 0, 0, 0.35) inset;
+}
+.btn-primary-fancy-sm:active {
+  transform: none;
+}
+
+.btn-secondary {
+  @apply inline-flex items-center justify-center rounded-full border border-[var(--border-strong)] bg-transparent px-8 py-3.5 text-base font-medium text-white transition-colors hover:bg-white/[0.06];
+}
+
+.btn-secondary-sm {
+  @apply inline-flex items-center justify-center rounded-full border border-[var(--border-strong)] bg-transparent px-5 py-2.5 text-center text-sm font-medium text-white transition-colors hover:bg-white/[0.06];
+}
+
+.container-neos {
+  @apply mx-auto max-w-[1120px] px-4 md:px-8;
+}
+
+@keyframes neos-marquee {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.marquee-track {
+  animation: neos-marquee 50s linear infinite;
+}
+
+.marquee-track:hover {
+  animation-play-state: paused;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marquee-track {
+    animation: none;
+    transform: none;
+  }
+}
