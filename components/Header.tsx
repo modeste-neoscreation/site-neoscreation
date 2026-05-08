@@ -30,11 +30,11 @@ export function Header() {
             width={240}
             height={40}
             priority
-            className="h-9 w-auto md:h-10"
+            className="h-9 w-auto max-w-[70vw] lg:h-10"
           />
         </a>
 
-        <nav className="hidden items-center gap-0.5 md:flex" aria-label="Principal">
+        <nav className="hidden items-center gap-0.5 lg:flex" aria-label="Principal">
           {links.map(({ href, label }) => (
             <a
               key={href}
@@ -51,13 +51,13 @@ export function Header() {
             href={CALENDLY}
             target="_blank"
             rel="noopener noreferrer"
-            className="btn-primary-fancy-sm !hidden md:!inline-flex"
+            className="btn-primary-fancy-sm !hidden lg:!inline-flex"
           >
             Prendre un rendez-vous
           </a>
           <button
             type="button"
-            className="inline-flex rounded-lg p-2 text-white md:hidden"
+            className="inline-flex rounded-lg p-2 text-white lg:hidden"
             aria-expanded={open}
             aria-controls="mobile-nav"
             onClick={() => setOpen((v) => !v)}
@@ -77,7 +77,7 @@ export function Header() {
       </div>
 
       {open && (
-        <div id="mobile-nav" className="border-t border-[var(--border)] md:hidden">
+        <div id="mobile-nav" className="border-t border-[var(--border)] lg:hidden">
           <nav className="container-neos flex flex-col py-3" aria-label="Mobile">
             {links.map(({ href, label }) => (
               <a
